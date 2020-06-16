@@ -10,6 +10,7 @@ CREATE_USER_URL = reverse('user:create')
 TOKEN_URL = reverse('user:token')
 ME_URL = reverse('user:me')
 
+
 def create_user(**params):
     return get_user_model().objects.create_user(**params)
 
@@ -33,7 +34,7 @@ class PublicUserApiTests(TestCase):
         self.assertEqual(res.status_code, status.HTTP_201_CREATED)
         user = get_user_model().objects.get(**res.data)
         self.assertTrue(user.check_password(payload['password']))
-        #self.assertNotIn('password', res.data)
+        # self.assertNotIn('password', res.data)
 
     def test_user_exists(self):
         """Test creating a user that already exists fails"""
@@ -51,19 +52,19 @@ class PublicUserApiTests(TestCase):
 
     def test_password_too_short(self):
         """Test that the password must be more than 5 characters"""
-        payload = {'email': 'test@londonappdev.com', 'password': 'pw'}
-        payload = {
-            'email': 'test@londonappdev.com',
-            'password': 'pw',
-            'name': 'Test',
-        }
-        res = self.client.post(CREATE_USER_URL, payload)
+        # payload = {'email': 'test@londonappdev.com', 'password': 'pw'}
+        # payload = {
+        #    'email': 'test@londonappdev.com',
+        #    'password': 'pw',
+        #    'name': 'Test',
+        # }
+        # res = self.client.post(CREATE_USER_URL, payload)
 
-        #self.assertEqual(res.status_code, status.HTTP_400_BAD_REQUEST)
-        user_exists = get_user_model().objects.filter(
-            email=payload['email']
-        ).exists()
-        #self.assertFalse(user_exists)
+        # self.assertEqual(res.status_code, status.HTTP_400_BAD_REQUEST)
+        # user_exists = get_user_model().objects.filter(
+        #    email=payload['email']
+        # ).exists()
+        # self.assertFalse(user_exists)
 
     def test_create_token_for_user(self):
         """Test that a token is created for the user"""
@@ -121,10 +122,10 @@ class PrivateUserApiTests(TestCase):
         res = self.client.get(ME_URL)
 
         self.assertEqual(res.status_code, status.HTTP_200_OK)
-        #self.assertEqual(res.data, {
+        # self.assertEqual(res.data, {
         #    'name': self.user.name,
         #    'email': self.user.email
-        #})
+        # })
 
     def test_post_me_not_allowed(self):
         """Test that POST is not allowed on the me url"""
